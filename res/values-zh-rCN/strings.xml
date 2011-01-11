@@ -700,7 +700,7 @@
     <string name="no_voip" msgid="8901474054537199865">"不支持互联网电话"</string>
     <string name="notification_ongoing_calling_format">"当前拨出 (<xliff:g id="DURATION">%s</xliff:g>)"
     </string>
-    <string name="advanced_setting">高级设置 V.30.1</string>
+    <string name="advanced_setting">高级设置 V.31</string>
     <string name="vibrate_outgoing">接听震动</string>
     <string name="vibrate_outgoing_sum">当对方接听时震动.</string>
     <string name="vibrate_45">45秒震动</string>
@@ -730,6 +730,30 @@
     <string name="left_hand_sum">用左手拿手机操作和接听电话, 需要重启.</string>
     <string name="set_force_touch">强制显示触摸键盘</string>
     <string name="set_force_touch_sum">强制在通话中使用触摸键盘无论是否有近距传感器.</string>
-    <string name="phone_number_label">我的手机号码</string>
+
+    <string name="per_change_mobile_network">更改网络 (2G/3G)</string>
+    <string name="per_change_mobile_network_desc">包含此权限的应用程序可以更改网络设置, 在2G和3G网络之间切换. 3G速度更快, 耗电更多, 同时也会增加你的网络费用支出.</string>
+    <string name="phone_number_label">手机号码</string>
     <string name="phone_number_summary">为这部手机设置号码</string>
+    <!-- TrackBall Answer - Added by Nushio -->
+    <string name="trackball_answer">滚轮键接听</string>
+    <string name="trackball_answer_sum">按下滚轮键接听来电.</string>
+    <string-array name="trackballLabels">
+        <item>禁用</item>
+        <item>单击接通</item>
+        <item>双击接通</item>
+    </string-array>
+    <string-array name="trackballValues">
+        <item>-1</item>
+        <item>350</item>
+        <item>dt</item>
+    </string-array>
+    <!-- TrackBall Hangup - Added by Nushio -->
+    <string name="trackball_hangup">滚轮键挂断</string>
+    <string name="trackball_hangup_sum">按下滚轮键挂断来电.</string>
+    <string-array name="trackballHangupLabels">
+        <item>禁用</item>
+        <item>单击挂断</item>
+        <item>双击挂断</item>
+    </string-array>
 </resources>
