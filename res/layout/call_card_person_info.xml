@@ -124,6 +124,16 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   />
+        <!-- City, used in Chinese version, originally from Geesun -->
+        <TextView android:id="@+id/city"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textSize="14sp"
+                  android:textColor="?android:attr/textColorSecondary"
+                  android:singleLine="true"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:paddingLeft="6dip"
+                  />
     </LinearLayout>
 
     <!-- Call type indication: a special label and/or branding
