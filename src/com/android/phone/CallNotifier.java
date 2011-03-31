@@ -1100,7 +1100,7 @@ public class CallNotifier extends Handler
         if (c != null) {
             final String number = c.getAddress();
             final long date = c.getCreateTime();
-            final long duration = c.getDurationMillis();
+            long duration = c.getDurationMillis();
             final Connection.DisconnectCause cause = c.getDisconnectCause();
             final Phone phone = c.getCall().getPhone();
 
@@ -1109,6 +1109,9 @@ public class CallNotifier extends Handler
             if (c.isIncoming()) {
                 callLogType = (cause == Connection.DisconnectCause.INCOMING_MISSED ?
                                Calls.MISSED_TYPE : Calls.INCOMING_TYPE);
+                if (cause == Connection.DisconnectCause.INCOMING_MISSED) {
+                    duration = System.currentTimeMillis() - date;
+                }
             } else {
                 callLogType = Calls.OUTGOING_TYPE;
             }
