@@ -277,7 +277,7 @@ public class CallCard extends FrameLayout
      */
     private void updateForegroundCall(CallManager cm) {
         if (DBG) log("updateForegroundCall()...");
-        if (DBG) PhoneUtils.dumpCallManager();
+        // if (DBG) PhoneUtils.dumpCallManager();
 
         Call fgCall = cm.getActiveFgCall();
         Call bgCall = cm.getFirstActiveBgCall();
@@ -356,8 +356,7 @@ public class CallCard extends FrameLayout
      * (ie. the stuff in the primaryCallInfo block) based on the specified Call.
      */
     private void displayMainCallStatus(CallManager cm, Call call) {
-        if (DBG) log("displayMainCallStatus(phone " + cm
-                     + ", call " + call + ")...");
+        if (DBG) log("displayMainCallStatus(call " + call + ")...");
 
         if (call == null) {
             // There's no call to display, presumably because the phone is idle.
@@ -1146,6 +1145,8 @@ public class CallCard extends FrameLayout
             if(!TextUtils.isEmpty(info.phoneNumber)){
                 city = PhoneLocation.getCityFromPhone(info.phoneNumber);
             }
+            if (DBG) log("- got personUri: '" + personUri
+                         + "', based on info.person_id: " + info.person_id);
         } else {
             displayName =  getPresentationString(presentation);
         }
