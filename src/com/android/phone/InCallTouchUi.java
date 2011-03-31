@@ -255,8 +255,6 @@ public class InCallTouchUi extends FrameLayout
      * the current state of the phone.
      */
     void updateState(CallManager cm) {
-        if (DBG) log("updateState( CallManager" + cm + ")...");
-
         if (mInCallScreen == null) {
             log("- updateState: mInCallScreen has been destroyed; bailing out...");
             return;
@@ -690,7 +688,7 @@ public class InCallTouchUi extends FrameLayout
      * Apply an animation to hide the incoming call widget.
      */
     private void hideIncomingCallWidget() {
-        if (mUseRotaryLockscreen) {
+        if (mUseRotaryLockscreen || mUseRotaryRevLockscreen) {
             if (mIncomingRotarySelectorCallWidget.getVisibility() != View.VISIBLE
                 || mIncomingRotarySelectorCallWidget.getAnimation() != null) {
                 // Widget is already hidden or in the process of being hidden
@@ -717,7 +715,7 @@ public class InCallTouchUi extends FrameLayout
 
             public void onAnimationEnd(Animation animation) {
                 // hide the incoming call UI.
-                if (mUseRotaryLockscreen) {
+                if (mUseRotaryLockscreen || mUseRotaryRevLockscreen) {
                     mIncomingRotarySelectorCallWidget.clearAnimation();
                     mIncomingRotarySelectorCallWidget.setVisibility(View.GONE);
                 } else {
@@ -726,7 +724,7 @@ public class InCallTouchUi extends FrameLayout
                 }
             }
         });
-        if (mUseRotaryLockscreen) {
+        if (mUseRotaryLockscreen || mUseRotaryRevLockscreen) {
             mIncomingRotarySelectorCallWidget.startAnimation(anim);
         } else {
             mIncomingSlidingTabCallWidget.startAnimation(anim);
@@ -817,7 +815,7 @@ public class InCallTouchUi extends FrameLayout
             // since *this* class is the only place that knows that the left
             // handle means "Answer" and the right handle means "Decline".)
             int hintTextResId, hintColorResId;
-            if (mUseRotaryLockscreen) {
+            if (mUseRotaryLockscreen || mUseRotaryRevLockscreen) {
                 switch (grabbedState) {
                     case RotarySelector.NOTHING_GRABBED:
                         hintTextResId = 0;

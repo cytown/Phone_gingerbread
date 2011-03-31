@@ -360,7 +360,7 @@
         <item>Show number</item>
     </string-array>
     <!-- Phone settings: Internal keys used for Caller ID preference values.  DO NOT TRANSLATE. -->
-    <string-array name="clir_values">
+    <string-array name="clir_values" translatable="false">
         <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
         <item><xliff:g>DEFAULT</xliff:g></item>
         <!-- Phone settings: Internal key used for Caller ID preference values.  DO NOT TRANSLATE. -->
@@ -845,11 +845,11 @@
     <string name="caller_manage_manage_done_text">Back to call</string>
 
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_phoneNumber_text">(650) 555-1234</string>
+    <string name="fake_phone_activity_phoneNumber_text" translatable="false">(650) 555-1234</string>
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_infoText_text">Incoming phone number</string>
+    <string name="fake_phone_activity_infoText_text" translatable="false">Incoming phone number</string>
     <!-- Used in FakePhoneActivity test code.  DO NOT TRANSLATE. -->
-    <string name="fake_phone_activity_placeCall_text">Fake Incoming Call</string>
+    <string name="fake_phone_activity_placeCall_text" translatable="false">Fake Incoming Call</string>
 
     <!-- Button label on "SIM Missing" screen -->
     <string name="sim_missing_continueView_text">Continue without SIM card</string>
@@ -1065,7 +1065,7 @@
       <item>Long</item>
     </string-array>
     <!-- Do not translate. -->
-    <string-array name="dtmf_tone_values">
+    <string-array name="dtmf_tone_values" translatable="false">
        <item>0</item>
        <item>1</item>
     </string-array>
@@ -1167,7 +1167,7 @@
 
     <!-- For incoming calls, this is a string we can get from a CDMA network instead of
          the actual phone number, to indicate there's no number present.  DO NOT TRANSLATE. -->
-    <string name="absent_num">ABSENT NUMBER</string>
+    <string name="absent_num" translatable="false">ABSENT NUMBER</string>
 
     <!-- Voicemail dialog title -->
     <string name="voicemail_settings">Voicemail settings</string>
@@ -1417,6 +1417,10 @@
     <string name="set_primary_summary">Used for outbound calls</string>
     <!-- Text of the advanced settings section. [CHAR LIMIT=NONE] -->
     <string name="advanced_settings">Optional settings</string>
+    <!-- Text of the username used in authentication. [CHAR LIMIT=NONE] -->
+    <string name="auth_username_title">Authentication username</string>
+    <!-- Help text of the auth_username field. [CHAR LIMIT=NONE] -->
+    <string name="auth_username_summary">Username used for authentication</string>
 
     <!-- Initial status of the preferences is '<Not set>'. [CHAR LIMIT=NONE] -->
     <string name="default_preference_summary">&lt;Not set&gt;</string>
@@ -1474,6 +1478,7 @@
     <string translatable="false" name="auto_registration">AutoRegistration</string>
     <string translatable="false" name="set_primary">SetPrimary</string>
     <string translatable="false" name="advanced_settings_container">advanced settings container</string>
+    <string translatable="false" name="auth_username">AuthUserName</string>
     <!-- End of SIP settings related strings -->
 
     <string name="per_change_mobile_network">Change network (2G/3G)</string>
@@ -1489,7 +1494,7 @@
        <item>Tap to Answer</item>
        <item>Double Tap to Answer</item>    
     </string-array>  
-    <string-array name="trackballValues">  
+    <string-array name="trackballValues" translatable="false">
        <item>-1</item>
        <item>350</item>
        <item>dt</item> 
