@@ -32,6 +32,12 @@ import android.os.SystemProperties;
 import android.os.Vibrator;
 import android.util.Log;
 
+import android.preference.PreferenceManager;
+import android.hardware.SensorManager;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorEvent;
+import android.hardware.Sensor;
+
 import com.android.internal.telephony.Phone;
 /**
  * Ringer manager for the Phone app.
@@ -61,9 +67,16 @@ public class Ringer {
     private long mFirstRingEventTime = -1;
     private long mFirstRingStartTime = -1;
 
+    private CallFeaturesSetting mSettings;
+    private SensorManager mSensorManager;
+    private boolean mSensorRunning = false;
+    private TurnListener mTurnListener = new TurnListener();
+
     Ringer(Context context) {
         mContext = context;
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
+        mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPreferences(context));
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 
     /**
@@ -172,6 +185,7 @@ public class Ringer {
                     mFirstRingEventTime = SystemClock.elapsedRealtime();
                 }
             }
+            startSensor();
         }
     }
 
@@ -216,6 +230,7 @@ public class Ringer {
             }
             // Also immediately cancel any vibration in progress.
             mVibrator.cancel();
+            stopSensor();
         }
     }
 
@@ -317,6 +332,48 @@ public class Ringer {
                     }
                 }
             };
+        }
+    }
+
+    class TurnListener implements SensorEventListener {
+        int count = 0;
+        public void onSensorChanged(SensorEvent event) {
+            if (++count < 5) {  // omit the first 5 times
+                return;
+            }
+            float[] values = event.values;
+            // Log.i("==="," @ " + values[1] + " : " + values[2]);
+            if (count <= 7) {   // test 5 to 7 times
+                if (Math.abs(values[1]) > 15 || Math.abs(values[2]) > 20) {
+                    // Log.i("===","force stop sensor! @ " + values[1] + " : " + values[2]);
+                    stopSensor();
+                }
+            } else {
+                if (Math.abs(values[1]) > 165 && Math.abs(values[2]) < 20) {
+                    if (DBG) log("turn over!");
+                    PhoneApp.getInstance().notifier.silenceRinger();
+                }
+            }
+        }
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    };
+
+    void stopSensor() {
+        if (mSensorRunning) {
+            if (DBG) log("stop sensor!");
+            mTurnListener.count = 0;
+            mSensorManager.unregisterListener(mTurnListener);
+            mSensorRunning = false;
+        }
+    }
+
+
+    void startSensor() {
+        if (mSettings.mTurnSilence && !mSensorRunning) {
+            if (DBG) log("startSensor()...");
+            mSensorManager.registerListener(mTurnListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                    SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorRunning = true;
         }
     }
 
