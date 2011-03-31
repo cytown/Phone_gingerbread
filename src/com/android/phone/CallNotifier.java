@@ -188,7 +188,7 @@ public class CallNotifier extends Handler
     public CallNotifier(PhoneApp app, Phone phone, Ringer ringer,
                         BluetoothHandsfree btMgr, CallLogAsync callLog) {
         mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPreferences(app));
-        //mSensorManager = (SensorManager) app.getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) app.getSystemService(Context.SENSOR_SERVICE);
         mApplication = app;
         mCM = app.mCM;
         mCallLog = callLog;
@@ -476,7 +476,7 @@ public class CallNotifier extends Handler
         // - do this before showing the incoming call panel
         if (PhoneUtils.isRealIncomingCall(state)) {
             startIncomingCallQuery(c);
-            //startSensor();
+            startSensor();
         } else {
             if (mSettings.mVibCallWaiting) {
                 mApplication.vibrate(200,300,500);
@@ -1263,7 +1263,7 @@ public class CallNotifier extends Handler
         if (VDBG) log("onCfiChanged(): " + visible);
         NotificationMgr.getDefault().updateCfi(visible);
     }
-/*
+
     private SensorManager mSensorManager;
     private boolean mSensorRunning = false;
     private TurnListener mTurnListener = new TurnListener();
@@ -1309,7 +1309,7 @@ public class CallNotifier extends Handler
             mSensorRunning = true;
         }
     }
-*/
+
     /**
      * Indicates whether or not this ringer is ringing.
      */
@@ -1325,7 +1325,7 @@ public class CallNotifier extends Handler
         mSilentRingerRequested = true;
         if (DBG) log("stopRing()... (silenceRinger)");
         // Log.i("===","silence sensor!");
-        //stopSensor();
+        stopSensor();
         mRinger.stopRing();
     }
 
