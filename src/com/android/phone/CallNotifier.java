@@ -1148,7 +1148,9 @@ public class CallNotifier extends Handler
                 final boolean isEmergencyNumber = PhoneNumberUtils.isEmergencyNumber(number);
 
                 // Don't put OTA or CDMA Emergency calls into call log
-                if (!(isOtaNumber || isEmergencyNumber && shouldNotlogEmergencyNumber)) {
+                if (!(isOtaNumber || isEmergencyNumber && shouldNotlogEmergencyNumber)
+                        && !(callLogType == Calls.MISSED_TYPE &&     // Skip Spam Call Log
+                            duration < mSettings.mSkipSpamCalllog)) {  // by cytown
                     CallLogAsync.AddCallArgs args =
                             new CallLogAsync.AddCallArgs(
                                 mApplication, ci, logNumber, presentation,
@@ -1158,7 +1160,7 @@ public class CallNotifier extends Handler
                 }
             }
 
-            if (callLogType == Calls.MISSED_TYPE) {
+            if (callLogType == Calls.MISSED_TYPE && duration >= mSettings.mSkipSpamCalllog) { // Skip Spam Call Log
                 // Show the "Missed call" notification.
                 // (Note we *don't* do this if this was an incoming call that
                 // the user deliberately rejected.)

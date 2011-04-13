@@ -142,6 +142,15 @@
         android:dialogTitle="@string/trackball_hangup" 
         android:persistent="false" />
     <!-- end Trackball Answer -->
+    <!-- Skip Spam Call Log start -->
+    <ListPreference android:key="button_skip_spam_calllog"
+        android:title="@string/skip_spam_calllog"
+        android:summary=""
+        android:entries="@array/skipSpamCalllogLables"
+        android:entryValues="@array/skipSpamCalllogValues"
+        android:dialogTitle="@string/skip_spam_calllog"
+        android:persistent="false" />
+    <!-- Skip Spam Call Log end -->
   <PreferenceScreen
         android:key="button_black_list"
         android:title="@string/black_list"

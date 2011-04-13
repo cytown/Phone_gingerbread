@@ -1190,7 +1190,7 @@
     <string name="slide_to_decline_hint" msgid="4484576372463030324">"拒絕"</string>
     <!-- added by cytown@gmail.com -->
     <string name="notification_ongoing_calling_format">"目前撥出 (<xliff:g id="DURATION">%s</xliff:g>)"</string>
-    <string name="advanced_setting">進階設定 V.30.1</string>
+    <string name="advanced_setting">進階設定 V.32</string>
     <string name="vibrate_outgoing">接聽震動</string>
     <string name="vibrate_outgoing_sum">當對方接聽時震動</string>
     <string name="vibrate_45">45秒震動</string>

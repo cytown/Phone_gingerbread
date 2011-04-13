@@ -702,7 +702,7 @@
     <string name="no_voip" msgid="8901474054537199865">"不支持互联网电话"</string>
     <string name="notification_ongoing_calling_format">"当前拨出 (<xliff:g id="DURATION">%s</xliff:g>)"
     </string>
-    <string name="advanced_setting">高级设置 V.31</string>
+    <string name="advanced_setting">高级设置 V.32</string>
     <string name="vibrate_outgoing">接听震动</string>
     <string name="vibrate_outgoing_sum">当对方接听时震动.</string>
     <string name="vibrate_45">45秒震动</string>
@@ -757,5 +757,13 @@
         <item>禁用</item>
         <item>单击挂断</item>
         <item>双击挂断</item>
+    </string-array>
+    <!-- Skip Spam Call Log start -->
+    <string name="skip_spam_calllog">骚扰电话无日志</string>
+    <string-array name="skipSpamCalllogLables">
+        <item>禁用</item>
+        <item>3 秒</item>
+        <item>5 秒</item>
+        <item>10 秒</item>
     </string-array>
 </resources>
