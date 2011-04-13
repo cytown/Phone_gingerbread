@@ -466,6 +466,12 @@ public class CallFeaturesSetting extends PreferenceActivity
     private ListPreference mTrackballHangup;
     static String mTrackHangup;
 
+    //Skip Spam Call Log start
+    private static final String BUTTON_SKIP_SPAM_CALLLOG = "button_skip_spam_calllog";
+    private ListPreference mListSkipSpamCalllog;
+    static int mSkipSpamCalllog;
+    //Skip Spam Call Log end
+
     private boolean mForeground;
 
     @Override
@@ -571,9 +577,16 @@ public class CallFeaturesSetting extends PreferenceActivity
             }
         } else if (preference == mButtonSipCallOptions) {
             handleSipCallOptionsChange(objValue);
+        } else if (preference == mListSkipSpamCalllog) {
+            updateListSkipSpamCalllog((String)objValue);
         }
         // always let the preference setting proceed.
         return true;
+    }
+
+    private void updateListSkipSpamCalllog(String s) {
+        int i = mListSkipSpamCalllog.findIndexOfValue(s);
+        mListSkipSpamCalllog.setSummary(getResources().getStringArray(R.array.skipSpamCalllogLables)[i]);
     }
 
     private void handleNotificationChange(Object objValue) {
@@ -1628,6 +1641,12 @@ public class CallFeaturesSetting extends PreferenceActivity
         mTrackballHangup = (ListPreference) prefSet.findPreference(BUTTON_TRACKBALL_HANGUP);
         mTrackballHangup.setValue(mTrackHangup);
 
+        mListSkipSpamCalllog = (ListPreference) prefSet.findPreference(BUTTON_SKIP_SPAM_CALLLOG);
+        mListSkipSpamCalllog.setOnPreferenceChangeListener(this);
+        String val = Integer.toString(mSkipSpamCalllog);
+        mListSkipSpamCalllog.setValue(val);
+        updateListSkipSpamCalllog(val);
+
         // No reason to show Trackball Answer & Hangup if it doesn't have a
         // Trackball.
         if (getResources().getConfiguration().navigation != 3) {
@@ -2052,6 +2071,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         mTrackAnswer = pref.getString(BUTTON_TRACKBALL_ANSWER, "-1");
         mTrackHangup = pref.getString(BUTTON_TRACKBALL_HANGUP, "-1");
 
+        mSkipSpamCalllog = pref.getInt(BUTTON_SKIP_SPAM_CALLLOG, -1);
+
         ObjectInputStream ois = null;
         boolean correctVer = false;
         try {
@@ -2186,7 +2207,8 @@ public class CallFeaturesSetting extends PreferenceActivity
         // Trackball Answer & Hangup
         outState.putString(BUTTON_TRACKBALL_ANSWER, mTrackballAnswer.getValue());
         outState.putString(BUTTON_TRACKBALL_HANGUP, mTrackballHangup.getValue());
-        outState.commit();
+        outState.putInt(BUTTON_SKIP_SPAM_CALLLOG, Integer.parseInt(mListSkipSpamCalllog.getValue()));
+        outState.apply();
         init(pref);
         super.onStop();
     }

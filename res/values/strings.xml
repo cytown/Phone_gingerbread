@@ -1219,7 +1219,7 @@
     <!-- added by cytown@gmail.com -->
     <string name="notification_ongoing_calling_format">Calling (<xliff:g id="duration">%s</xliff:g>)
     </string>
-    <string name="advanced_setting">Advanced Settings V.31</string>
+    <string name="advanced_setting">Advanced Settings V.32</string>
     <string name="vibrate_outgoing">Vibrate on answer</string>
     <string name="vibrate_outgoing_sum">Vibrate when a call is answered</string>
     <string name="vibrate_45">Vibrate every 45 seconds</string>
@@ -1506,7 +1506,23 @@
        <item>Disabled</item> 
        <item>Tap to Hang up</item>
        <item>Double Tap to Hang up</item>    
-    </string-array> 
+    </string-array>
+
+    <!-- Skip Spam Call Log start -->
+    <string name="skip_spam_calllog">Skip Spam Calllog</string>
+    <string-array name="skipSpamCalllogLables">
+        <item>Never</item>
+        <item>3 sec</item>
+        <item>5 sec</item>
+        <item>10 sec</item>
+    </string-array>
+    <string-array name="skipSpamCalllogValues" translatable="false">
+        <item>-1</item>
+        <item>3000</item>
+        <item>5000</item>
+        <item>10000</item>
+    </string-array>
+    <!-- Skip Spam Call Log end -->
 
     <!-- Phone goggles -->
     <string name="toast_phone_goggles">You are not allowed to make phone calls at this time. Please try again later.</string>
