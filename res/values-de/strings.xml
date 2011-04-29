@@ -351,11 +351,11 @@
     <string name="cdma_system_select_title" msgid="5757657769327732833">"Systemauswahl"</string>
     <string name="cdma_system_select_summary" msgid="2528661990595284707">"CDMA-Roamingmodus ändern"</string>
     <string name="cdma_system_select_dialogtitle" msgid="6083355415165359075">"Systemauswahl"</string>
-    <string-array name="cdma_system_select_choices">
-        <item msgid="176474317493999285">"Nur Startseite"</item>
+  <string-array name="cdma_system_select_choices">
+    <item msgid="176474317493999285">"Nur privates Netz"</item>
 	<item>Unternehmensnetzwerke</item>
-        <item msgid="1205664026446156265">"Automatisch"</item>
-    </string-array>
+    <item msgid="1205664026446156265">"Automatisch"</item>
+  </string-array>
     <string name="cdma_roaming_mode_title" msgid="6366737033053855198">"CDMA-Roamingmodus"</string>
     <string name="cdma_roaming_mode_summary" msgid="8604713111805562261">"CDMA-Roamingmodus ändern"</string>
     <string name="cdma_roaming_mode_dialogtitle" msgid="1802896889172094947">"CDMA-Roamingmodus"</string>
