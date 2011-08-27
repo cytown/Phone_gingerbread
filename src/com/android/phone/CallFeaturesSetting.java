@@ -436,6 +436,18 @@ public class CallFeaturesSetting extends PreferenceActivity
     private CheckBoxPreference mButtonForceTouch;
     static boolean mForceTouch;
 
+    private static final String ROTATE_INCALL_SCREEN      = "rotate_incall_screen";
+    private CheckBoxPreference mRotateIncallScreen;
+    static boolean mRotateIncall;
+
+    private static final String BG_INCALL_SCREEN = "bg_incall_screen";
+    private CheckBoxPreference mBgIncallScreen;
+    static boolean mBgIncall;
+
+    private static final String BUTTON_BLACK_REGEX = "button_black_regex";
+    private CheckBoxPreference mButtonBlackRegex;
+    static boolean mBlackRegex;
+
     private static final String BUTTON_VIBRATE_CALL_WAITING = "button_vibrate_call_waiting";
     private CheckBoxPreference mButtonVibCallWaiting;
     static boolean mVibCallWaiting;
@@ -471,6 +483,10 @@ public class CallFeaturesSetting extends PreferenceActivity
     private ListPreference mListSkipSpamCalllog;
     static int mSkipSpamCalllog;
     //Skip Spam Call Log end
+    //Hide Hold button
+    private static final String BUTTON_HIDE_HOLD_BUTTON = "button_hide_hold_button";
+    private CheckBoxPreference mButtonHideHoldButton;
+    static boolean mHideHoldButton;
 
     private boolean mForeground;
 
@@ -614,8 +630,8 @@ public class CallFeaturesSetting extends PreferenceActivity
             if (epn == mSubMenuVoicemailSettings) {
                 handleVMBtnClickRequest();
             } else if (epn == mButtonAddBlack) {
-                // add by cytown
-                String number = PhoneNumberUtils.stripSeparators((epn.getPhoneNumber()));
+                // Obtain phone number stripped of separator chars except '.'
+                String number = stripSeparators((epn.getRawPhoneNumber()));
                 if (number != null && !number.equals("")) {
                     if (addBlackList(number))
                         initPrefBlackList();
@@ -623,6 +639,42 @@ public class CallFeaturesSetting extends PreferenceActivity
                 }
             }
         }
+    }
+
+    /**
+     * Custom stripSeparators() method identical to
+     * PhoneNumberUtils.stripSeparators(), to retain '.'s
+     * for blacklist regex parsing.
+     * There is no difference between the two, this is only
+     * done to use the custom isNonSeparator() method below.
+     */
+    private String stripSeparators(String phoneNumber) {
+        if (phoneNumber == null) {
+            return null;
+        }
+        int len = phoneNumber.length();
+        StringBuilder ret = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = phoneNumber.charAt(i);
+            if (isNonSeparator(c)) {
+                ret.append(c);
+            }
+        }
+
+        return ret.toString();
+    }
+
+    /**
+     * Custom isNonSeparator() method identical to
+     * PhoneNumberUtils.isNonSeparator(), to retain '.'s
+     * for blacklist regex parsing.
+     * The only difference between the two is that this
+     * custom one allows '.'s.
+     */
+    private boolean isNonSeparator(char c) {
+        return (c >= '0' && c <= '9') || c == '*' || c == '#' || c == '+'
+                    || c == PhoneNumberUtils.WILD || c == PhoneNumberUtils.WAIT
+                    || c == PhoneNumberUtils.PAUSE || c == '.';
     }
 
     /**
@@ -1632,9 +1684,15 @@ public class CallFeaturesSetting extends PreferenceActivity
         } else {
             mButtonForceTouch.setChecked(mForceTouch);
         }
+        mRotateIncallScreen = (CheckBoxPreference) prefSet.findPreference(ROTATE_INCALL_SCREEN);
+        mRotateIncallScreen.setChecked(mRotateIncall);
+        mBgIncallScreen = (CheckBoxPreference) prefSet.findPreference(BG_INCALL_SCREEN);
+        mBgIncallScreen.setChecked(mBgIncall);
         mButtonAddBlack = (EditPhoneNumberPreference) prefSet.findPreference(BUTTON_ADD_BLACK);
         mButtonAddBlack.setParentActivity(this, ADD_BLACK_LIST_ID, this);
         mButtonAddBlack.setDialogOnClosedListener(this);
+        mButtonBlackRegex = (CheckBoxPreference) prefSet.findPreference(BUTTON_BLACK_REGEX);
+        mButtonBlackRegex.setChecked(mBlackRegex);
         mCatBlackList = (PreferenceCategory) prefSet.findPreference(CATEGORY_BLACK);
         initPrefBlackList();
 
@@ -1664,6 +1722,8 @@ public class CallFeaturesSetting extends PreferenceActivity
                     .removePreference(mButtonAlwaysProximity);
         }
 //====
+        mButtonHideHoldButton = (CheckBoxPreference) prefSet.findPreference(BUTTON_HIDE_HOLD_BUTTON);
+        mButtonHideHoldButton.setChecked(mHideHoldButton);
     }
 
     private void createSipCallSettings() {
@@ -2070,8 +2130,12 @@ public class CallFeaturesSetting extends PreferenceActivity
         mForceTouch = pref.getBoolean(BUTTON_FORCE_TOUCH,
                 PhoneUtils.isProximitySensorAvailable(PhoneApp.getInstance()));
         // Trackball Answer & Hangup
+        mRotateIncall = pref.getBoolean(ROTATE_INCALL_SCREEN, false);
+        mBgIncall = pref.getBoolean(BG_INCALL_SCREEN, false);
         mTrackAnswer = pref.getString(BUTTON_TRACKBALL_ANSWER, "-1");
         mTrackHangup = pref.getString(BUTTON_TRACKBALL_HANGUP, "-1");
+        mHideHoldButton = pref.getBoolean(BUTTON_HIDE_HOLD_BUTTON, false);
+        mBlackRegex = pref.getBoolean(BUTTON_BLACK_REGEX, false);
 
         mSkipSpamCalllog = pref.getInt(BUTTON_SKIP_SPAM_CALLLOG, -1);
 
@@ -2132,7 +2196,21 @@ public class CallFeaturesSetting extends PreferenceActivity
 
     public boolean isBlackList(String s) {
         // System.out.println(setBlackList + ":" + s);
-        return setBlackList.contains(new PhoneNo(s));
+        if (setBlackList.contains(new PhoneNo(s)))
+            return true;
+        if (!mBlackRegex) return false;
+        String str = new String(s);
+        for (PhoneNo num : setBlackList) {
+            // Check for null (technically can't happen but wateva)
+            // and make sure it doesn't begin with '*' to prevent FC's
+            if (num.phone == null || num.phone.startsWith("*")) continue;
+            // Escape all +'s. Other regex special chars
+            // don't need to be checked for since the phone number
+            // is already stripped of separator chars.
+            String phone = num.phone.replaceAll("\\+", "\\\\+");
+            if (str.matches(phone)) return true;
+        }
+        return false;
     }
 
     private void saveBLFile() {
@@ -2206,9 +2284,13 @@ public class CallFeaturesSetting extends PreferenceActivity
         outState.putBoolean(BUTTON_VIBRATE_CALL_WAITING, mButtonVibCallWaiting.isChecked());
         outState.putBoolean(BUTTON_FORCE_TOUCH,
                 mButtonForceTouch == null || mButtonForceTouch.isChecked());
+        outState.putBoolean(ROTATE_INCALL_SCREEN, mRotateIncallScreen.isChecked());
+        outState.putBoolean(BG_INCALL_SCREEN, mBgIncallScreen.isChecked());
+        outState.putBoolean(BUTTON_BLACK_REGEX, mButtonBlackRegex.isChecked());
         // Trackball Answer & Hangup
         outState.putString(BUTTON_TRACKBALL_ANSWER, mTrackballAnswer.getValue());
         outState.putString(BUTTON_TRACKBALL_HANGUP, mTrackballHangup.getValue());
+        outState.putBoolean(BUTTON_HIDE_HOLD_BUTTON, mButtonHideHoldButton.isChecked());
         outState.putInt(BUTTON_SKIP_SPAM_CALLLOG, Integer.parseInt(mListSkipSpamCalllog.getValue()));
         outState.apply();
         init(pref);

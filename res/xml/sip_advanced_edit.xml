@@ -66,10 +66,19 @@
         <ListPreference
             android:key="@string/send_keepalive"
             android:title="@string/send_keepalive_title"
-            android:entries="@array/sip_send_keepalive_options"
+            android:entries="@array/sip_send_keepalive_entries"
             android:entryValues="@array/sip_send_keepalive_options"
             android:persistent="false"
             android:summary="@string/sip_system_decide"/>
+
+        <EditTextPreference
+            android:key="@string/keepalive_interval"
+            android:title="@string/keepalive_interval_title"
+            android:summary="@string/keepalive_interval_summary"
+            android:dialogTitle="@string/keepalive_interval_title"
+            android:persistent="false"
+            android:inputType="number|numberDecimal"
+            android:singleLine="true"/>
 
         <EditTextPreference
             android:key="@string/user_agent"
