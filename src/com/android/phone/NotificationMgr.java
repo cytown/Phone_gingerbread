@@ -118,6 +118,9 @@ private static CallFeaturesSetting mSettings;
     private static final int CLEAR_TOKEN = -3;
     private static final String CLEAR_MISSED_CALLS = "com.android.phone.clearmissedcalls";
 
+    // Was the screen on when the incoming call arrived?
+    private static boolean wasScreenOn = false;
+
     NotificationMgr(Context context) {
         mContext = context;
 mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()));
@@ -143,6 +146,11 @@ mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPr
 
     static NotificationMgr getDefault() {
         return sMe;
+    }
+
+    // state of screen when call arrived, set by CallNotifier
+    static void setScreenStateAtIncomingCall(boolean isScreenOn) {
+        wasScreenOn = isScreenOn;
     }
 
     /**
@@ -401,11 +409,10 @@ mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPr
      * missed-call signal.
      */
     private static void configureLedNotification(Notification note) {
-        if (!mSettings.mLedNotify) return;
-        note.flags |= Notification.FLAG_SHOW_LIGHTS;
-        note.ledARGB = 0xff00ffff;
-        note.ledOnMS = 500;
-        note.ledOffMS = 2000;
+        if (mSettings.mLedNotify) {
+            note.flags |= Notification.FLAG_SHOW_LIGHTS;
+            note.defaults |= Notification.DEFAULT_LIGHTS;
+        }
     }
 
     /**
@@ -458,7 +465,7 @@ mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPr
                 expandedText, // expandedText
                 intent // contentIntent
                 );
-        if (mSettings.mLedNotify) configureLedNotification(note);
+        configureLedNotification(note);
         note.deleteIntent = PendingIntent.getBroadcast(mContext, -1, new Intent(CLEAR_MISSED_CALLS), 0);
         mNotificationMgr.notify(MISSED_CALL_NOTIFICATION, note);
     }
@@ -731,8 +738,12 @@ if (callDurationMsec > 0) {
             // (rather than just posting a notification to the status bar).
             // Setting fullScreenIntent will cause the InCallScreen to be
             // launched immediately.
-            if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
-            notification.fullScreenIntent = inCallPendingIntent;
+            if (!mSettings.mBgIncall || !wasScreenOn) {
+                if (DBG) log("- Setting fullScreenIntent: " + inCallPendingIntent);
+                notification.fullScreenIntent = inCallPendingIntent;
+            } else {
+                notification.tickerText = expandedViewLine2;
+            }
 
             // Ugly hack alert:
             //
@@ -927,7 +938,7 @@ if (callDurationMsec > 0) {
                     pendingIntent  // contentIntent
                     );
             notification.defaults |= Notification.DEFAULT_SOUND;
-            if (mSettings.mLedNotify) configureLedNotification(notification);
+            configureLedNotification(notification);
             mNotificationMgr.notify(VOICEMAIL_NOTIFICATION, notification);
         } else {
             mNotificationMgr.cancel(VOICEMAIL_NOTIFICATION);

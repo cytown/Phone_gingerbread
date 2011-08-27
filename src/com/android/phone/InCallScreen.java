@@ -27,6 +27,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
@@ -678,6 +679,13 @@ public class InCallScreen extends Activity
     protected void onResume() {
         if (DBG) log("onResume()...");
         super.onResume();
+
+        if(mSettings.mRotateIncall) {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+        else {
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+        }
 
         mIsForegroundActivity = true;
 
@@ -3024,6 +3032,8 @@ public class InCallScreen extends Activity
         int id = view.getId();
         if (id == R.id.endButton) {
             Connection c = PhoneUtils.getConnection(mPhone, PhoneUtils.getCurrentCall(mPhone));
+            if (c == null)
+                return false; // c can be null from getConnection(), so don't crash below
             String number = c.getAddress();
             // Confirm for addBlack
             new AlertDialog.Builder(this)

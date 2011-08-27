@@ -126,6 +126,16 @@
         android:title="@string/left_hand"
         android:persistent="false"
         android:summary="@string/left_hand_sum"/>
+    <CheckBoxPreference
+        android:key="rotate_incall_screen"
+        android:title="@string/rotate_incall"
+        android:persistent="false"
+        android:summary="@string/rotate_incall_sum"/>
+    <CheckBoxPreference
+        android:key="bg_incall_screen"
+        android:title="@string/bg_incall"
+        android:persistent="false"
+        android:summary="@string/bg_incall_sum"/>
     <!-- Trackball Answer - Added by Nushio -->
     <ListPreference android:key="button_trackball_answer_timed"
         android:title="@string/trackball_answer" 
@@ -142,6 +152,13 @@
         android:dialogTitle="@string/trackball_hangup" 
         android:persistent="false" />
     <!-- end Trackball Answer -->
+    <!-- Hide Hold button - Added by leinardi -->
+    <CheckBoxPreference
+        android:key="button_hide_hold_button"
+        android:title="@string/hide_hold_button"
+        android:persistent="false"
+        android:summary="@string/hide_hold_button_sum"/>
+    <!-- end Hide Hold button -->
     <!-- Skip Spam Call Log start -->
     <ListPreference android:key="button_skip_spam_calllog"
         android:title="@string/skip_spam_calllog"
@@ -164,6 +181,11 @@
             phone:confirmMode="confirm"
             android:singleLine="true"
             android:autoText="false"/>
+        <CheckBoxPreference
+            android:key="button_black_regex"
+            android:title="@string/black_regex_title"
+            android:summary="@string/black_regex_summary"
+            android:persistent="false" />
         <PreferenceCategory android:key="cat_black_list" android:title="@string/black_list"/>
     </PreferenceScreen>
 </PreferenceCategory>

@@ -693,7 +693,10 @@
     <string name="transport_title" msgid="8253139511847746640">"Tipo trasporto"</string>
     <string name="send_keepalive_title" msgid="7533342573918645113">"Invia keep-alive"</string>
     <string name="send_keepalive_summary" msgid="9038969409950960640">"Invia messaggi keep-alive SIP"</string>
-    <!-- Text of the user agent preference. [CHAR LIMIT=NONE] -->
+    <string name="sip_system_decide_entry">Automatico</string>
+    <string name="sip_always_send_keepalive_entry">Invia sempre</string>
+    <string name="keepalive_interval_title">Intervallo keep-alive</string>
+    <string name="keepalive_interval_summary">Intervallo keep-alive SIP in secondi</string>
     <string name="user_agent_title">User-Agent SIP</string>
     <string name="auto_registration_title" msgid="3586777375420122154">"Registrazione automatica"</string>
     <string name="auto_registration_summary" msgid="2522794041206619280">"Registra automaticamente il profilo"</string>
@@ -740,13 +743,19 @@
     <string name="black_list">Contatti Bloccati</string>
     <string name="black_list_sum">Le chiamate in arrivo dai contatti bloccati verranno rifiutate</string>
     <string name="add_black">Aggiungi numero di telefono</string>
+    <string name="black_regex_title">Usa metacaratteri</string>
+    <string name="black_regex_summary">Usa . per indicare un qualsiasi numero, aggiungi * per indicare una qualsiasi sequenza di numeri. Es. 123.* blocca i numeri che iniziano con 123 e .*123.* blocca i numeri contenenti 123</string>
     <string name="remove_black">Rimuovi %s dall\'elenco</string>
     <string name="turn_silence">Gira per disatt. suoneria</string>
     <string name="turn_silence_sum">Gira il telefono per disattivare la suoneria quando ricevi una chiamata</string>
     <string name="left_hand">Usa mano sinistra</string>
     <string name="left_hand_sum">Usa la mano sinistra per tenere il telefono, richiede riavvio.</string>
     <string name="set_force_touch">Forza Tastiera Touch</string>
-    <string name="set_force_touch_sum">Forza la visualizzazione del Touch UI senza individuare il sensore di prossimità</string>
+    <string name="set_force_touch_sum">Forza la visualizzazione della Touch UI senza individuare il sensore di prossimità</string>
+    <string name="rotate_incall">Attiva rotazione automatica</string>
+    <string name="rotate_incall_sum">Rotazione automatica per la schermata chiamata in arrivo.</string>
+    <string name="bg_incall">Chiamata in secondo piano</string>
+    <string name="bg_incall_sum">Se lo schermo è acceso l\'interfaccia della chiamata in arrivo rimarrà in secondo piano e al suo posto verrà visualizzata una notifica.</string>
     <!--  Use this to describe the select contact button in EditPhoneNumberPreference; currently for screen readers through accessibility. -->
     <string name="per_change_mobile_network">Cambia rete (2G/3G)</string>
     <string name="per_change_mobile_network_desc">Un\'applicazione con questo permesso può passare da 2G a 3G e viceversa in qualsiasi momento. Il 3G è più veloce, consuma più batteria e può anche farti spendere di più.</string>
@@ -770,6 +779,9 @@
        <item>Premi per terminare</item>
        <item>Premi due volte per terminare</item>
     </string-array>
+
+    <string name="hide_hold_button">Nascondi tasto In attesa</string>
+    <string name="hide_hold_button_sum">Nascondi il tasto che mette in attesa la chiamata in corso.</string>
 
     <!-- Phone goggles -->
     <string name="toast_phone_goggles">Non ti è permesso telefonare a quest\'ora. Riprova più tardi.</string>
