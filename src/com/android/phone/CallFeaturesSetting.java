@@ -2330,7 +2330,6 @@ public class CallFeaturesSetting extends PreferenceActivity
         outState.putString(BUTTON_TRACKBALL_HANGUP, mTrackballHangup.getValue());
         outState.putBoolean(BUTTON_HIDE_HOLD_BUTTON, mButtonHideHoldButton.isChecked());
         outState.putInt(BUTTON_SKIP_SPAM_CALLLOG, Integer.parseInt(mListSkipSpamCalllog.getValue()));
-        init(pref);
         if (mButtonVoiceQuality != null) {
             outState.putString(BUTTON_VOICE_QUALITY_KEY, mButtonVoiceQuality.getValue());
         }

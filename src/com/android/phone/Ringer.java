@@ -75,7 +75,7 @@ public class Ringer {
     Ringer(Context context) {
         mContext = context;
         mPowerManager = IPowerManager.Stub.asInterface(ServiceManager.getService(Context.POWER_SERVICE));
-        mSettings = CallFeaturesSetting.getInstance(PreferenceManager.getDefaultSharedPreferences(context));
+        mSettings = CallFeaturesSetting.getInstance(context);
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 
